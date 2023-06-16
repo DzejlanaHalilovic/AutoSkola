@@ -1,5 +1,9 @@
-using AutoSkola.Data;
+﻿using AutoSkola.Data;
 using AutoSkola.Data.Models;
+using AutoSkola.Infrastructure;
+using AutoSkola.Infrastructure.Interfaces;
+using AutoSkola.Infrastructure.Repositories;
+using AutoSkola.Mapping;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,11 +22,24 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
 builder.Services.AddIdentity<User, AppRole>()
     .AddRoles<AppRole>()
     .AddEntityFrameworkStores<DataContext>()
     .AddDefaultTokenProviders();
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddAutoMapper(typeof(ApplicationMapping));
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddScoped<IAutomobilRepository, AutomobilRepository>();
+builder.Services.AddScoped<IČasRepository, ČasRepository>();
+builder.Services.AddScoped<IKategorijaRepository, KategorijaRepository>();
+builder.Services.AddScoped<IKvarRepository, KvarRepository>();
+builder.Services.AddScoped<IRasporedRepository, RasporedRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
+
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

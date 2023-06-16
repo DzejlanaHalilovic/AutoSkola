@@ -16,6 +16,7 @@ namespace AutoSkola.Contracts.Models.Identity.Request
         public string UserName { get; set; }
         public string Password { get; set; }
 
+        [DataType(DataType.Date)]
         public DateTime DatumRodjenja { get; set; }
         public char Pol { get; set; }
         public string BrojTelefona { get; set; }

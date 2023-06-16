@@ -22,7 +22,7 @@ namespace AutoSkola.Infrastructure.Repositories
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
 
-        public UserRepository( IMapper mapper, UserManager<User>manager) : base(context, mapper)
+        public UserRepository( DataContext context,IMapper mapper, UserManager<User>manager) : base(context, mapper)
         {
             
             this.mapper = mapper;
