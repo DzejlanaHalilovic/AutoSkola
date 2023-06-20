@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Mail;
+using System.Net;
+using System.Text;
 
 namespace AutoSkola.Controllers
 {
@@ -52,5 +55,52 @@ namespace AutoSkola.Controllers
                 return BadRequest(new { msg = result.Errors.FirstOrDefault() });
             return Ok(result.Data);
         }
+
+        [HttpPost("forgot-password")]
+        public async Task<IActionResult> forgotPassword([FromBody] string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest(new { error = "User with this email does not exist" });
+            string to = user.Email;
+            string from = "nordingsoftversko@gmail.com";
+            MailMessage message = new MailMessage(from, to);
+            string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://elmaaa-001-site1.ftempurl.com/change-password/{user.SecurityStamp}";
+            message.Body = mailbody;
+            message.BodyEncoding = Encoding.UTF8;
+            message.IsBodyHtml = true;
+            SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+            NetworkCredential basicCredential = new NetworkCredential("nordingsoftversko@gmail.com", "vbahpxfxlkowjabt");
+            client.EnableSsl = true;
+            client.UseDefaultCredentials = false;
+            client.Credentials = basicCredential;
+            try
+            {
+                client.Send(message);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return Ok(true);
+
+
+
+
+        }
+
+
+        [HttpPost("reset-password")]
+        public async Task<IActionResult> resetPassword(ResetPasswordRequest request)
+        {
+            var user = await userManager.Users.Where(x => x.SecurityStamp == request.token).FirstOrDefaultAsync();
+            var tokenReset = await userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await userManager.ResetPasswordAsync(user, tokenReset, request.newPassword);
+            return Ok(result);
+        }
+
+
+
     }
 }

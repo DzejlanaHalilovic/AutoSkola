@@ -61,6 +61,42 @@ namespace AutoSkola.Controllers
             return Ok(lista);
         }
 
+        [HttpGet("/polaznik-list")]
+        public async Task<IActionResult> getPolaznik()
+        {
+            var result = await mediator.Send(new GetPolaznikListQuery());
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
+        [HttpGet("/instuktor-list")]
+        public async Task<IActionResult> getInstuktor()
+        {
+            var result = await mediator.Send(new GetInstuktorListQuery());
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
+
+        [HttpPut("accept/{id}")]
+
+        public async Task<IActionResult>acceptPolaznik(int id)
+        {
+            var result = await mediator.Send(new AcceptUserCommand(id));
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.IsSuccess);
+        }
+
+        [HttpDelete("decline/{id}")]
+        public async Task<IActionResult>declinePolaznik(int id)
+        {
+            var result = await mediator.Send(new DeclineUserCommand(id));
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.IsSuccess);
+        }
+
 
     }
 }
