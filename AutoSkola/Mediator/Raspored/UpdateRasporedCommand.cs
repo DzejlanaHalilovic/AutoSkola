@@ -5,31 +5,38 @@ using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using System.Globalization;
-
 
 namespace AutoSkola.Mediator.Raspored
 {
-    public record CreateRasporedCommand(CreateRasporedRequest rasporedRequest): IRequest<Result<AutoSkola.Data.Models.Raspored>>;
-
-    public class CreateRasporedHandler : IRequestHandler<CreateRasporedCommand, Result<AutoSkola.Data.Models.Raspored>>
+    public record UpdateRasporedCommand(int id, int InstruktorId,int PolaznikId, DateTime DatumVreme) : IRequest<Result<AutoSkola.Data.Models.Raspored>>
+    {
+    }
+    public class UpdateRasporedHandler : IRequestHandler<UpdateRasporedCommand, Result<AutoSkola.Data.Models.Raspored>>
     {
         private readonly UserManager<User> userManager;
-        private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IMapper mapper;
 
-        public CreateRasporedHandler(UserManager<User> userManager,IMapper mapper, IUnitOfWork unitOfWork)
+        public UpdateRasporedHandler(UserManager<User> userManager, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.userManager = userManager;
-            this.mapper = mapper;
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
-      
 
-        public async Task<Result<Data.Models.Raspored>> Handle(CreateRasporedCommand request, CancellationToken cancellationToken)
+        public async Task<Result<Data.Models.Raspored>> Handle(UpdateRasporedCommand request, CancellationToken cancellationToken)
         {
-            var instruktor = await userManager.FindByIdAsync(request.rasporedRequest.InstruktorId.ToString());
-            var polaznik = await userManager.FindByIdAsync(request.rasporedRequest.PolaznikId.ToString());
+          
+            var instruktor = await userManager.FindByIdAsync(request.InstruktorId.ToString());
+            var polaznik = await userManager.FindByIdAsync(request.PolaznikId.ToString());
+      
+            var rasporednovi = await unitOfWork.rasporedRepository.getById(request.id);
+            if (rasporednovi == null)
+                return new Result<Data.Models.Raspored>
+                {
+                    Errors = new List<string> { "Raspored nije pronadjen" },
+                    IsSuccess = false
+                };
 
             if (instruktor == null)
             {
@@ -66,39 +73,18 @@ namespace AutoSkola.Mediator.Raspored
                     IsSuccess = false
                 };
             }
-
-            var instruktorPolazniciCount = await unitOfWork.rasporedRepository.GetPolazniciCountByInstruktorId(instruktor.Id);
-            if (instruktorPolazniciCount >= 3)
-            {
-                return new Result<AutoSkola.Data.Models.Raspored>
-                {
-                    Errors = new List<string> { "Instruktor već ima maksimalan broj polaznika" },
-                    IsSuccess = false
-                };
-            }
-
-            
-
-
-            // Dodeljivanje instruktora i polaznika iz baze podataka rasporedu
-            var raspored = new AutoSkola.Data.Models.Raspored
-            {
-
-                DatumVreme = request.rasporedRequest.DatumVreme,
-                InstruktorId = instruktor.Id,
-                PolaznikId = polaznik.Id
-            };
-
-            await unitOfWork.rasporedRepository.Add(raspored);
+            rasporednovi.InstruktorId = request.InstruktorId;
+            rasporednovi.PolaznikId = request.PolaznikId;
+            rasporednovi.DatumVreme = request.DatumVreme;
             var result = await unitOfWork.CompleteAsync();
             if (!result)
                 return new Result<Data.Models.Raspored>
                 {
-                    Errors = new List<string> { "error in adding daata" },
+                    Errors = new List<string> { "error in saving data" },
                     IsSuccess = false
                 };
-            return new Result<Data.Models.Raspored> { Data = raspored };
+            return new Result<Data.Models.Raspored> { Data = rasporednovi };
+          
 
         }
-    }
-}
+    } }

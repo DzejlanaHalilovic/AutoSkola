@@ -1,5 +1,7 @@
 ﻿using AutoSkola.Data;
+using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,5 +41,7 @@ namespace AutoSkola.Infrastructure
             var result = await context.SaveChangesAsync();
             return result > 0;
         }
+
+       
     }
 }

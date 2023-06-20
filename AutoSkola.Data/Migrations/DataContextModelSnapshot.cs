@@ -148,12 +148,17 @@ namespace AutoSkola.Data.Migrations
                     b.Property<DateTime>("DatumVreme")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("InstruktorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PolaznikId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("InstruktorId");
+
+                    b.HasIndex("PolaznikId");
 
                     b.ToTable("raspored");
                 });
@@ -295,11 +300,16 @@ namespace AutoSkola.Data.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<int?>("UserId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("RasporedId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("userraspored");
                 });
@@ -437,11 +447,21 @@ namespace AutoSkola.Data.Migrations
 
             modelBuilder.Entity("AutoSkola.Data.Models.Raspored", b =>
                 {
-                    b.HasOne("AutoSkola.Data.Models.User", "User")
+                    b.HasOne("AutoSkola.Data.Models.User", "Instruktor")
                         .WithMany()
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("InstruktorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
-                    b.Navigation("User");
+                    b.HasOne("AutoSkola.Data.Models.User", "Polaznik")
+                        .WithMany()
+                        .HasForeignKey("PolaznikId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Instruktor");
+
+                    b.Navigation("Polaznik");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.UserKategorija", b =>
@@ -466,16 +486,20 @@ namespace AutoSkola.Data.Migrations
             modelBuilder.Entity("AutoSkola.Data.Models.UserRaspored", b =>
                 {
                     b.HasOne("AutoSkola.Data.Models.Raspored", "Raspored")
-                        .WithMany("userraspored")
+                        .WithMany("UserRaspored")
                         .HasForeignKey("RasporedId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoSkola.Data.Models.User", "User")
-                        .WithMany("userraspored")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("AutoSkola.Data.Models.User", null)
+                        .WithMany("userraspored")
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Raspored");
 
@@ -540,7 +564,7 @@ namespace AutoSkola.Data.Migrations
 
             modelBuilder.Entity("AutoSkola.Data.Models.Raspored", b =>
                 {
-                    b.Navigation("userraspored");
+                    b.Navigation("UserRaspored");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.User", b =>

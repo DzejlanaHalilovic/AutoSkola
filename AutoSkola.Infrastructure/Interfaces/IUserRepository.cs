@@ -11,8 +11,8 @@ namespace AutoSkola.Infrastructure.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
-        public Task<bool> acceptJuru(int id);
-        public Task<bool> declineJury(int id);
+        public Task<bool> acceptUser(int id);
+        public Task<bool> declineUser(int id);
 
         public Task<UserResponse> register(RegisterRequest request);
         public Task<LoginResponse>login(LoginRequest request);

@@ -1,5 +1,4 @@
 ﻿using AutoSkola.Contracts.Models;
-using AutoSkola.Data.Migrations;
 using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure;
 using MediatR;

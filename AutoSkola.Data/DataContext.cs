@@ -22,7 +22,7 @@ namespace AutoSkola.Data
         public DbSet<Raspored>raspored { get; set; }
         public DbSet<UserKategorija> userkategorija { get; set; }
         public DbSet<UserRaspored>userraspored { get; set; }
-
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -44,21 +44,39 @@ namespace AutoSkola.Data
                 .IsRequired()
                  .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Raspored>()
+                .HasOne(r => r.Instruktor)
+                .WithMany()
+                .HasForeignKey(r => r.InstruktorId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Raspored>()
+                .HasOne(r => r.Polaznik)
+                .WithMany()
+                .HasForeignKey(r => r.PolaznikId)
+                .OnDelete(DeleteBehavior.NoAction);
+
 
             modelBuilder.Entity<UserRaspored>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<UserRaspored>()
-                .HasOne(bc => bc.User)
-                .WithMany(b => b.userraspored)
-                .HasForeignKey(bc => bc.UserId)
-                .IsRequired()
-                 .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(ur => ur.User)
+                .WithMany()
+                .HasForeignKey(ur => ur.UserId)
+                .IsRequired();
+
+
             modelBuilder.Entity<UserRaspored>()
-                .HasOne(bc => bc.Raspored)
-                .WithMany(c => c.userraspored)
-                .HasForeignKey(bc => bc.RasporedId)
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(ur => ur.Raspored)
+                .WithMany(r => r.UserRaspored)
+                .HasForeignKey(ur => ur.RasporedId)
+                .IsRequired();
+
+
+          
+
+
+
 
         }
     }
