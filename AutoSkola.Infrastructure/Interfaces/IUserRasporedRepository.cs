@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoSkola.Infrastructure.Interfaces
 {
-    public interface IČasRepository : IRepository<Čas>
+    public interface IUserRasporedRepository : IRepository<UserRaspored>
     {
-        Task<List<Čas>> GetCasoviByRasporedId(int rasporedId);
-
     }
 }

@@ -10,6 +10,7 @@ namespace AutoSkola.Contracts.Models.Čas.Request
 {
     public class CreateCasRequest
     {
+        public float Ocena { get; set; }
         public int RasporedId { get; set; }
         public int AutomobilRegBroj { get; set; }
     }

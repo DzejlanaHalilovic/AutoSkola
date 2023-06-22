@@ -36,6 +36,7 @@ builder.Services.AddScoped<IKategorijaRepository, KategorijaRepository>();
 builder.Services.AddScoped<IKvarRepository, KvarRepository>();
 builder.Services.AddScoped<IRasporedRepository, RasporedRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserRasporedRepository, UserRasporedRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddMediatR(opt => opt.RegisterServicesFromAssemblyContaining(typeof(Program)));
 

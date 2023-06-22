@@ -24,5 +24,13 @@ namespace AutoSkola.Infrastructure.Repositories
             return await context.raspored
                 .CountAsync(raspored => raspored.InstruktorId == instruktorId);
         }
+
+        public async Task<List<Raspored>> GetRasporediByPolaznikId(int polaznikId)
+        {
+            return await context.raspored
+                .Where(r => r.PolaznikId == polaznikId)
+                .ToListAsync();
+        }
+
     }
 }

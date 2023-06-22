@@ -10,5 +10,6 @@ namespace AutoSkola.Infrastructure.Interfaces
     public interface IRasporedRepository : IRepository<Raspored>
     {
         Task<int> GetPolazniciCountByInstruktorId(int instruktorId);
+        Task<List<Raspored>> GetRasporediByPolaznikId(int polaznikId);
     }
 }
