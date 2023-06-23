@@ -7,9 +7,9 @@ using MediatR;
 using AutoSkola.Data.Models;
 namespace AutoSkola.Mediator.Kategorija
 {
-    public record CreateKategorijaCommand (CreateKategorijaRequest kategorijaRequest) :IRequest<Result<AutoSkola.Data.Models.Kategorija>>;
+    public record CreateKategorijaCommand (CreateKategorijaRequest kategorijaRequest) :IRequest<Result<CreateKategorijaResponse>>;
 
-    public class CreateKategorijaHandler : IRequestHandler<CreateKategorijaCommand, Result<AutoSkola.Data.Models.Kategorija>>
+    public class CreateKategorijaHandler : IRequestHandler<CreateKategorijaCommand, Result<CreateKategorijaResponse>>
     {
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
@@ -19,10 +19,10 @@ namespace AutoSkola.Mediator.Kategorija
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
         }
-        public async Task<Result<Data.Models.Kategorija>> Handle(CreateKategorijaCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CreateKategorijaResponse>> Handle(CreateKategorijaCommand request, CancellationToken cancellationToken)
         {
             if (string.IsNullOrEmpty(request.kategorijaRequest.Tip))
-                return new Result<AutoSkola.Data.Models.Kategorija>
+                return new Result<CreateKategorijaResponse>
                 {
                     Errors = new List<string> { "Tip is required" },
                     IsSuccess = false
@@ -35,12 +35,13 @@ namespace AutoSkola.Mediator.Kategorija
             await unitOfWork.kategorijaRepository.Add(newKategorija);
             var result = await unitOfWork.CompleteAsync();
             if (!result)
-                return new Result<Data.Models.Kategorija>
+                return new Result<CreateKategorijaResponse>
                 {
                     Errors = new List<string> { "Something is not correct with requets data" },
                     IsSuccess = false
                 };
-            return new Result<Data.Models.Kategorija> { Data = newKategorija };
+            var response = mapper.Map<CreateKategorijaResponse>(newKategorija);
+            return new Result<CreateKategorijaResponse> { Data = response };
 
 
         }

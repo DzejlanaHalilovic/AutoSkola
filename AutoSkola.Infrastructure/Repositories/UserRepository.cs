@@ -146,8 +146,8 @@ namespace AutoSkola.Infrastructure.Repositories
             if(request.Role == 2)
             {
                 await userManager.AddToRoleAsync(user, "Polaznik");
-                user.EmailConfirmed = true;
-                await userManager.UpdateAsync(user);
+                //user.EmailConfirmed = true;
+               // await userManager.UpdateAsync(user);
             }
             else if(request.Role == 3)
             {
@@ -157,6 +157,7 @@ namespace AutoSkola.Infrastructure.Repositories
             {
                 return null;
             }
+
             var userMapped = mapper.Map<UserResponse>(user);
             return userMapped;
         }

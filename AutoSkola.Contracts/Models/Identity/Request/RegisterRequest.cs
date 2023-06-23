@@ -21,6 +21,9 @@ namespace AutoSkola.Contracts.Models.Identity.Request
         public char Pol { get; set; }
         public string BrojTelefona { get; set; }
         public int Role { get; set; }
+        //public string userraspored { get; set; }
+        // public int kategorijaId { get; set; }
+       public int kategorijaId { get; set; }
 
     }
 }

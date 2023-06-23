@@ -4,6 +4,7 @@ using AutoSkola.Contracts.Models.Identity.Response;
 using AutoSkola.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using System.Globalization;
 
 namespace AutoSkola.Mediator.Users
 {
@@ -34,8 +35,10 @@ namespace AutoSkola.Mediator.Users
                 };
                 
 
-            }var mappedUser = mapper.Map<UserResponse>(user);
-                return new Result<UserResponse>
+            }
+           
+            var mappedUser = mapper.Map<UserResponse>(user);
+            return new Result<UserResponse>
                 {
                     Data = mappedUser
                 };

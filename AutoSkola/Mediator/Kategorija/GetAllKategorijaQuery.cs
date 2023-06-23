@@ -1,16 +1,17 @@
 ﻿using AutoMapper;
 using AutoSkola.Contracts.Models;
+using AutoSkola.Contracts.Models.Kategorija;
 using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure;
 using MediatR;
 
 namespace AutoSkola.Mediator.Kategorija
 {
-    public class GetAllKategorijaQuery : IRequest<Result<IEnumerable<AutoSkola.Data.Models.Kategorija>>>
+    public class GetAllKategorijaQuery : IRequest<Result<IEnumerable<CreateKategorijaResponse>>>
     {
     }
 
-    public class GetKategorijaHandler : IRequestHandler<GetAllKategorijaQuery, Result<IEnumerable<AutoSkola.Data.Models.Kategorija>>>
+    public class GetKategorijaHandler : IRequestHandler<GetAllKategorijaQuery, Result<IEnumerable<CreateKategorijaResponse>>>
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
@@ -20,13 +21,15 @@ namespace AutoSkola.Mediator.Kategorija
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
         }
-        public async Task<Result<IEnumerable<Data.Models.Kategorija>>> Handle(GetAllKategorijaQuery request, CancellationToken cancellationToken)
+        public async Task<Result<IEnumerable<CreateKategorijaResponse>>> Handle(GetAllKategorijaQuery request, CancellationToken cancellationToken)
         {
             var lista = await unitOfWork.kategorijaRepository.GetAll();
-            var result = new Result<IEnumerable<AutoSkola.Data.Models.Kategorija>>
+            var response = mapper.Map<IEnumerable<CreateKategorijaResponse>>(lista);
+            var result = new Result<IEnumerable<CreateKategorijaResponse>>
             {
-                Data = lista
+                Data = response
             };
+           
             return result;
         }
     }
