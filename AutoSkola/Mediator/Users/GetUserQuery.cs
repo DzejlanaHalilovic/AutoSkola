@@ -36,8 +36,10 @@ namespace AutoSkola.Mediator.Users
                 
 
             }
+
            
             var mappedUser = mapper.Map<UserResponse>(user);
+          
             return new Result<UserResponse>
                 {
                     Data = mappedUser

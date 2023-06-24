@@ -2,6 +2,8 @@
 using AutoSkola.Contracts.Models.Identity.Request;
 using AutoSkola.Contracts.Models.Identity.Response;
 using AutoSkola.Contracts.Models.Kategorija;
+using AutoSkola.Contracts.Models.Raspored.Request;
+using AutoSkola.Contracts.Models.Raspored.Response;
 using AutoSkola.Data.Models;
 
 namespace AutoSkola.Mapping
@@ -23,7 +25,14 @@ namespace AutoSkola.Mapping
    .ForMember(dest => dest.userkategorija, opt => opt.MapFrom(src => new List<UserKategorija> { new UserKategorija { KategorijaId = src.kategorijaId } }));
             CreateMap<User, UserResponse>()
            .ForMember(dest => dest.kategorijaId, opt => opt.MapFrom(src => src.userkategorija.FirstOrDefault().KategorijaId));
-           
+
+            CreateMap<CreateRasporedRequest, Raspored>();
+            CreateMap<Raspored, RasporedResponse>();
+          
+          
+
+
+
         }
     }
 }

@@ -27,11 +27,13 @@ namespace AutoSkola.Data.Models
 
         public int InstruktorId { get; set; }
         [ForeignKey(nameof(InstruktorId))]
-        public User Instruktor { get; set; }
+        public User? Instruktor { get; set; }
+        [AllowNull]
 
         public int PolaznikId { get; set; }
         [ForeignKey(nameof(PolaznikId))]
-        public User Polaznik { get; set; }
+        public User? Polaznik { get; set; }
+        [AllowNull]
 
         public List<UserRaspored> UserRaspored { get; set; }
 
