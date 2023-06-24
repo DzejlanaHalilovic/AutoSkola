@@ -5,6 +5,7 @@ using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoSkola.Mediator.Users
 {
@@ -24,25 +25,34 @@ namespace AutoSkola.Mediator.Users
         }
         public async Task<Result<IEnumerable<UserResponse>>> Handle(GetPolaznikListQuery request, CancellationToken cancellationToken)
         {
+            var polaznikList = new List<UserResponse>();
+
             var list = await userManager.GetUsersInRoleAsync("Polaznik");
-            var polaznikList = new List<User>();
             foreach (var user in list)
             {
                 if (!user.EmailConfirmed)
-                    polaznikList.Add(user);
+                {
+                    var userWithKategorija = await userManager.Users.Include(u => u.userkategorija)
+                                                                  .FirstOrDefaultAsync(u => u.Id == user.Id);
+                    var mappedUser = mapper.Map<UserResponse>(userWithKategorija);
+                    polaznikList.Add(mappedUser);
+                }
             }
-            var mapped = mapper.Map<List<UserResponse>>(polaznikList);
-            if (polaznikList == null)
+
+            if (polaznikList.Count == 0)
+            {
                 return new Result<IEnumerable<UserResponse>>
                 {
-                    Errors = new List<string> { "There are not polaznik" },
+                    Errors = new List<string> { "There are no polaznik" },
                     IsSuccess = false
                 };
+            }
+
             return new Result<IEnumerable<UserResponse>>
             {
-                Data = mapped
+                Data = polaznikList
             };
-
         }
+
     }
 }

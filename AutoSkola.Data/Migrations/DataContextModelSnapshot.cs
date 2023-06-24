@@ -137,6 +137,29 @@ namespace AutoSkola.Data.Migrations
                     b.ToTable("kvar");
                 });
 
+            modelBuilder.Entity("AutoSkola.Data.Models.PolaznikInstuktor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("InstruktorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PolaznikId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InstruktorId");
+
+                    b.HasIndex("PolaznikId");
+
+                    b.ToTable("polaznikinstuktor");
+                });
+
             modelBuilder.Entity("AutoSkola.Data.Models.Raspored", b =>
                 {
                     b.Property<int>("Id")
@@ -443,6 +466,25 @@ namespace AutoSkola.Data.Migrations
                         .HasForeignKey("AutomobilRegBroj");
 
                     b.Navigation("Automobil");
+                });
+
+            modelBuilder.Entity("AutoSkola.Data.Models.PolaznikInstuktor", b =>
+                {
+                    b.HasOne("AutoSkola.Data.Models.User", "Instruktor")
+                        .WithMany()
+                        .HasForeignKey("InstruktorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("AutoSkola.Data.Models.User", "Polaznik")
+                        .WithMany()
+                        .HasForeignKey("PolaznikId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Instruktor");
+
+                    b.Navigation("Polaznik");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.Raspored", b =>

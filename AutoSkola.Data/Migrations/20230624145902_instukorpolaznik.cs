@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoSkola.Data.Migrations
 {
-    public partial class models : Migration
+    public partial class instukorpolaznik : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -185,6 +185,30 @@ namespace AutoSkola.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "polaznikinstuktor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    InstruktorId = table.Column<int>(type: "int", nullable: false),
+                    PolaznikId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_polaznikinstuktor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_polaznikinstuktor_AspNetUsers_InstruktorId",
+                        column: x => x.InstruktorId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_polaznikinstuktor_AspNetUsers_PolaznikId",
+                        column: x => x.PolaznikId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -374,6 +398,16 @@ namespace AutoSkola.Data.Migrations
                 column: "AutomobilRegBroj");
 
             migrationBuilder.CreateIndex(
+                name: "IX_polaznikinstuktor_InstruktorId",
+                table: "polaznikinstuktor",
+                column: "InstruktorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_polaznikinstuktor_PolaznikId",
+                table: "polaznikinstuktor",
+                column: "PolaznikId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_raspored_InstruktorId",
                 table: "raspored",
                 column: "InstruktorId");
@@ -431,6 +465,9 @@ namespace AutoSkola.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "kvar");
+
+            migrationBuilder.DropTable(
+                name: "polaznikinstuktor");
 
             migrationBuilder.DropTable(
                 name: "userkategorija");

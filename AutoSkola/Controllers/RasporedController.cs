@@ -1,6 +1,8 @@
-﻿using AutoSkola.Contracts.Models.Raspored.Request;
+﻿using AutoSkola.Contracts.Models.PolaznikInstuktor;
+using AutoSkola.Contracts.Models.Raspored.Request;
 using AutoSkola.Data;
 using AutoSkola.Infrastructure;
+using AutoSkola.Mediator.PolaznikInstuktor;
 using AutoSkola.Mediator.Raspored;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -34,6 +36,16 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+
+        [HttpPost("korisnici")]
+        public async Task<IActionResult> createRaspored(PolaznikInstuktorRequest request)
+        {
+            var result = await mediator.Send(new PolaznikInstuktorCommand(request));
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
+
         [HttpGet("{id}")]
         public async Task<IActionResult>GetById(int id)
         {

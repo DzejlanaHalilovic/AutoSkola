@@ -4,6 +4,7 @@ using AutoSkola.Contracts.Models.Identity.Response;
 using AutoSkola.Data.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Globalization;
 
 namespace AutoSkola.Mediator.Users
@@ -25,8 +26,10 @@ namespace AutoSkola.Mediator.Users
 
         public async Task<Result<UserResponse>> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-           var user = await userManager.FindByIdAsync(request.id.ToString());
-            if(user == null)
+           //var user = await userManager.FindByIdAsync(request.id.ToString());
+            var user = await userManager.Users.Include(u => u.userkategorija).FirstOrDefaultAsync(u => u.Id == request.id);
+
+            if (user == null)
             {
                 return new Result<UserResponse>
                 {

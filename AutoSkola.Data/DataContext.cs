@@ -22,6 +22,7 @@ namespace AutoSkola.Data
         public DbSet<Raspored>raspored { get; set; }
         public DbSet<UserKategorija> userkategorija { get; set; }
         public DbSet<UserRaspored>userraspored { get; set; }
+        public DbSet<PolaznikInstuktor> polaznikinstuktor { get; set; }
        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,6 +56,20 @@ namespace AutoSkola.Data
                 .WithMany()
                 .HasForeignKey(r => r.PolaznikId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PolaznikInstuktor>()
+               .HasOne(r => r.Instruktor)
+               .WithMany()
+               .HasForeignKey(r => r.InstruktorId)
+               .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<PolaznikInstuktor>()
+                .HasOne(r => r.Polaznik)
+                .WithMany()
+                .HasForeignKey(r => r.PolaznikId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
 
 
             modelBuilder.Entity<UserRaspored>()

@@ -67,15 +67,7 @@ namespace AutoSkola.Mediator.Raspored
                 };
             }
 
-            var instruktorPolazniciCount = await unitOfWork.rasporedRepository.GetPolazniciCountByInstruktorId(instruktor.Id);
-            if (instruktorPolazniciCount >= 3)
-            {
-                return new Result<AutoSkola.Data.Models.Raspored>
-                {
-                    Errors = new List<string> { "Instruktor već ima maksimalan broj polaznika" },
-                    IsSuccess = false
-                };
-            }
+          
 
             
 

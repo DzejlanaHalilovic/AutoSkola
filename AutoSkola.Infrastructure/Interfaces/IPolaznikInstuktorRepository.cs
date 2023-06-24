@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace AutoSkola.Infrastructure.Interfaces
 {
-    public interface IUserRasporedRepository : IRepository<UserRaspored>
+    public interface IPolaznikInstuktorRepository : IRepository<PolaznikInstuktor>
     {
-
+        Task<int> GetPolazniciCountByInstruktorId(int instruktorId);
     }
 }
