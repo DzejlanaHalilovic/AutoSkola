@@ -21,12 +21,13 @@ namespace AutoSkola.Infrastructure.Repositories
 {
     public class UserRepository : Repository<User>, IUserRepository
     {
+        private readonly DataContext context;
         private readonly IMapper mapper;
         private readonly UserManager<User> userManager;
 
         public UserRepository( DataContext context,IMapper mapper, UserManager<User>manager) : base(context, mapper)
         {
-            
+            this.context = context;
             this.mapper = mapper;
             this.userManager = manager;
         }
@@ -97,6 +98,11 @@ namespace AutoSkola.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task<Kategorija> GetKategorijaByIdAsync(int kategorijaId)
+        {
+            return await context.kategorije.FindAsync(kategorijaId);
+        }
+
         public async Task<LoginResponse> login(LoginRequest request)
         {
             var user = await userManager.FindByEmailAsync(request.Email);
@@ -148,6 +154,8 @@ namespace AutoSkola.Infrastructure.Repositories
                 await userManager.AddToRoleAsync(user, "Polaznik");
                 //user.EmailConfirmed = true;
                // await userManager.UpdateAsync(user);
+
+
             }
             else if(request.Role == 3)
             {
@@ -159,6 +167,12 @@ namespace AutoSkola.Infrastructure.Repositories
             }
 
             var userMapped = mapper.Map<UserResponse>(user);
+            var kategorijaId = user.userkategorija?.FirstOrDefault().KategorijaId;
+            if (kategorijaId != null)
+            {
+                var kategorija = await GetKategorijaByIdAsync(kategorijaId.Value);
+                userMapped.TipKategorije = kategorija?.Tip;
+            }
             return userMapped;
         }
 

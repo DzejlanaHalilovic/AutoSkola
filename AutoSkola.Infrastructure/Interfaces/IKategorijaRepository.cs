@@ -9,5 +9,6 @@ namespace AutoSkola.Infrastructure.Interfaces
 {
     public interface IKategorijaRepository : IRepository<Kategorija>
     {
+        Task<Kategorija> GetKategorijaByIdAsync(int kategorijaId);
     }
 }

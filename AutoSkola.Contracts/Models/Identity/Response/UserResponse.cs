@@ -27,5 +27,6 @@ namespace AutoSkola.Contracts.Models.Identity.Response
        public string? Error { get; set; }
        // public Data.Models.UserKategorija kategorijaId { get; set; }
        public int kategorijaId { get; set; }
+        public string? TipKategorije { get; set; }
     }
 }

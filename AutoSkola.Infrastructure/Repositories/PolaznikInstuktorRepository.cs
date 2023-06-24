@@ -24,6 +24,11 @@ namespace AutoSkola.Infrastructure.Repositories
             return await context.polaznikinstuktor
                 .CountAsync(polaznikinstuktor => polaznikinstuktor.InstruktorId == instruktorId);
         }
+        public async Task<PolaznikInstuktor> GetPolaznikInstuktorByPolaznikIdAndInstruktorId(int polaznikId, int instruktorId)
+        {
+            return await context.polaznikinstuktor
+                .FirstOrDefaultAsync(pi => pi.PolaznikId == polaznikId && pi.InstruktorId == instruktorId);
+        }
 
     }
 }

@@ -19,5 +19,6 @@ namespace AutoSkola.Infrastructure.Interfaces
         public Task<string> forgotPassword(string email);
         public Task<string> chechToken(string token);
         public Task<bool>resetPassword(ResetPasswordRequest request);
+        Task<Kategorija> GetKategorijaByIdAsync(int kategorijaId);
     }
 }

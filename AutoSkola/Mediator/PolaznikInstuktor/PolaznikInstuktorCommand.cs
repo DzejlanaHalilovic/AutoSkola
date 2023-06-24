@@ -73,7 +73,16 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
                 };
             }
 
-
+            // Provera da li instruktor već ima dodatog polaznika
+            var existingPolaznikInstuktor = await unitOfWork.polaznikInstuktorRepository.GetPolaznikInstuktorByPolaznikIdAndInstruktorId(polaznik.Id, instruktor.Id);
+            if (existingPolaznikInstuktor != null)
+            {
+                return new Result<PolaznikInstuktorResponse>
+                {
+                    Errors = new List<string> { "Polaznik je već dodat instruktoru" },
+                    IsSuccess = false
+                };
+            }
 
             var korisnici = new AutoSkola.Data.Models.PolaznikInstuktor
             {

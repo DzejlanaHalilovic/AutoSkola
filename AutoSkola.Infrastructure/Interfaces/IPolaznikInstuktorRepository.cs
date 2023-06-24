@@ -10,5 +10,6 @@ namespace AutoSkola.Infrastructure.Interfaces
     public interface IPolaznikInstuktorRepository : IRepository<PolaznikInstuktor>
     {
         Task<int> GetPolazniciCountByInstruktorId(int instruktorId);
+        Task<PolaznikInstuktor> GetPolaznikInstuktorByPolaznikIdAndInstruktorId(int polaznikId, int instruktorId);
     }
 }
