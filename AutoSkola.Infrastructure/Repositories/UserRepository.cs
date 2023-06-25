@@ -156,6 +156,7 @@ namespace AutoSkola.Infrastructure.Repositories
                // await userManager.UpdateAsync(user);
 
 
+
             }
             else if(request.Role == 3)
             {
@@ -180,5 +181,8 @@ namespace AutoSkola.Infrastructure.Repositories
         {
             throw new NotImplementedException();
         }
+
+        
+
     }
 }

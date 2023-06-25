@@ -38,7 +38,7 @@ namespace AutoSkola.Controllers
             return Ok(result.Data);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<IActionResult>DeleteKategorija(int id)
         {
             var result = await mediator.Send(new RemoveKategorijaCommand(id));

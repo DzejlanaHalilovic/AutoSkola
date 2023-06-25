@@ -1,5 +1,9 @@
-﻿using AutoSkola.Contracts.Models.Identity.Request;
+﻿using AutoMapper;
+using AutoSkola.Contracts.Models.Identity.Request;
+using AutoSkola.Contracts.Models.Identity.Response;
+using AutoSkola.Data;
 using AutoSkola.Data.Models;
+using AutoSkola.Infrastructure;
 using AutoSkola.Mediator.Users;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -15,11 +19,19 @@ namespace AutoSkola.Controllers
     {
         private readonly IMediator mediator;
         private readonly RoleManager<AppRole> role;
+        private readonly DataContext context;
+        private readonly UserManager<User> userManager;
+        private readonly IMapper mapper;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UserController(IMediator mediator, RoleManager<AppRole> role)
+        public UserController(IMediator mediator, RoleManager<AppRole> role,DataContext context, UserManager<User> userManager,IMapper mapper,IUnitOfWork unitOfWork)
         {
             this.mediator = mediator;
             this.role = role;
+            this.context = context;
+            this.userManager = userManager;
+            this.mapper = mapper;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -96,6 +108,87 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.IsSuccess);
         }
+        [HttpGet("polaznicikategorija/{tipKategorije}")]
+        public async Task<IActionResult> GetPolazniciByTipKategorije(string tipKategorije)
+        {
+            var polaznici = await userManager.GetUsersInRoleAsync("Polaznik");
+            var polazniciKategorija = context.userkategorija
+                .Where(uk => uk.Kategorija.Tip == tipKategorije && polaznici.Contains(uk.User))
+                .Select(uk => uk.User)
+                .ToList();
+
+            return Ok(new { data = polazniciKategorija });
+        }
+        [HttpGet("instuktorikategorija/{tipKategorije}")]
+        public async Task<IActionResult> GetInstuktoriByTipKategorije(string tipKategorije)
+        {
+            var polaznici = await userManager.GetUsersInRoleAsync("Instuktor");
+            var polazniciKategorija = context.userkategorija
+                .Where(uk => uk.Kategorija.Tip == tipKategorije && polaznici.Contains(uk.User))
+                .Select(uk => uk.User)
+                .ToList();
+
+            return Ok(new { data = polazniciKategorija });
+        }
+
+
+        [HttpGet("kategorija/{tipKategorije}")]
+        public async Task<IActionResult> GetPolazniciInstruktoriByKategorija(string tipKategorije)
+        {
+            var polaznici = await userManager.GetUsersInRoleAsync("Polaznik");
+            var instruktori = await userManager.GetUsersInRoleAsync("Instruktor");
+
+            var polazniciKategorija = context.userkategorija
+                .Where(uk => uk.Kategorija.Tip == tipKategorije && polaznici.Contains(uk.User))
+                .Select(uk => uk.User)
+                .ToList();
+
+            var instruktoriKategorija = context.userkategorija
+                .Where(uk => uk.Kategorija.Tip == tipKategorije && instruktori.Contains(uk.User))
+                .Select(uk => uk.User)
+                .ToList();
+
+            return Ok(new { polaznici = polazniciKategorija, instruktori = instruktoriKategorija });
+        }
+        [HttpGet("instruktori/dostupni/{categoryId}/{polaznikId}")]
+        public async Task<ActionResult<List<UserResponse>>> GetAvailableInstructorsByCategoryAndPolaznik(int categoryId, string polaznikId)
+        {
+            var polaznik = await userManager.FindByIdAsync(polaznikId);
+
+            if (polaznik == null)
+            {
+                return NotFound();
+            }
+
+            var instructors = await userManager.GetUsersInRoleAsync("Instructor");
+            var availableInstructors = new List<UserResponse>();
+
+            foreach (var instructor in instructors)
+            {
+                var instructorCategories = await userManager.GetRolesAsync(instructor);
+
+                // Provera da li instruktor pripada zadatoj kategoriji
+                if (instructorCategories.Contains(categoryId.ToString()))
+                {
+                    var instructorPolazniciCount = await unitOfWork.polaznikInstuktorRepository.GetPolazniciCountByInstruktorId(instructor.Id);
+
+                    // Provera da li instruktor ima manje od 3 polaznika
+                    if (instructorPolazniciCount < 3)
+                    {
+                        var instructorResponse = mapper.Map<UserResponse>(instructor);
+                        availableInstructors.Add(instructorResponse);
+                    }
+                }
+            }
+
+            return availableInstructors;
+        }
+
+
+
+
+
+
 
 
     }
