@@ -21,9 +21,9 @@ namespace AutoSkola.Data.Models
 
         [ForeignKey(nameof(Raspored))]
         [AllowNull]
-        public int? RasporedId { get; set; }
+       // public int? RasporedId { get; set; }
 
-        public Raspored? Raspored { get; set; }
+        //public Raspored? Raspored { get; set; }
         public string Razlog { get; set; }
         public DateTime DatumOdsustava { get; set; }
     }

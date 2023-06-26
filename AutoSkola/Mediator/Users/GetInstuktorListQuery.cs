@@ -44,12 +44,12 @@ namespace AutoSkola.Mediator.Users
 
                     var mappedUser = mapper.Map<UserResponse>(userWithKategorija);
 
-                    var kategorijaId = userWithKategorija?.userkategorija?.FirstOrDefault().KategorijaId;
-                    if (kategorijaId != null)
-                    {
-                        var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
-                        mappedUser.TipKategorije = kategorija?.Tip;
-                    }
+                    //var kategorijaId = userWithKategorija?.userkategorija?.FirstOrDefault().KategorijaId;
+                    //if (kategorijaId != null)
+                    //{
+                    //    var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
+                    //    mappedUser.TipKategorije = kategorija?.Tip;
+                    //}
 
                     instuktorList.Add(mappedUser);
                 }

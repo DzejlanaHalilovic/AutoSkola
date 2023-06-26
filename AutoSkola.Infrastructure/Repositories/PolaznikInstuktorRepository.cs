@@ -30,5 +30,22 @@ namespace AutoSkola.Infrastructure.Repositories
                 .FirstOrDefaultAsync(pi => pi.PolaznikId == polaznikId && pi.InstruktorId == instruktorId);
         }
 
+        public async Task<List<User>> GetInstruktoriByKategorija(int kategorijaId)
+        {
+            var instruktori = await context.Users
+                .Include(u => u.userkategorija)
+                .Where(u => u.userkategorija.Any(uk => uk.KategorijaId == kategorijaId))
+                .ToListAsync();
+
+            return instruktori;
+        }
+        public async Task<int> GetBrojPolaznikaByInstruktorId(int instruktorId)
+        {
+            return await context.polaznikinstuktor
+                .CountAsync(pi => pi.InstruktorId == instruktorId);
+        }
+
+
+
     }
 }

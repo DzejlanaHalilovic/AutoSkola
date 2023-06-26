@@ -31,7 +31,12 @@ namespace AutoSkola.Mapping
             CreateMap<CreateRasporedRequest, Raspored>();
             CreateMap<Raspored, RasporedResponse>();
             CreateMap<PolaznikInstuktor, PolaznikInstuktorResponse>();
-           
+            // Konfiguracija za mapiranje između UserRaspored i RasporedResponse
+            CreateMap<RasporedResponse, UserRaspored>();
+            CreateMap<User, UserRaspored>();
+            CreateMap<UserRaspored, RasporedResponse>();
+
+
 
 
         }

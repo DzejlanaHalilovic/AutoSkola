@@ -13,7 +13,7 @@ namespace AutoSkola.Contracts.Models.UserRaspored
     {
         public int UserId { get; set; }
        
-        public int RasporedId { get; set; }
+       // public int RasporedId { get; set; }
         
         public string Razlog { get; set; }
         [DataType(DataType.Date)]

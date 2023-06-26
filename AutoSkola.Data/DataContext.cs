@@ -81,11 +81,11 @@ namespace AutoSkola.Data
                 .IsRequired();
 
 
-            modelBuilder.Entity<UserRaspored>()
-                .HasOne(ur => ur.Raspored)
-                .WithMany(r => r.UserRaspored)
-                .HasForeignKey(ur => ur.RasporedId)
-                .IsRequired();
+            //modelBuilder.Entity<UserRaspored>()
+            //    .HasOne(ur => ur.Raspored)
+            //    .WithMany(r => r.UserRaspored)
+            //    .HasForeignKey(ur => ur.RasporedId)
+            //    .IsRequired();
 
 
           

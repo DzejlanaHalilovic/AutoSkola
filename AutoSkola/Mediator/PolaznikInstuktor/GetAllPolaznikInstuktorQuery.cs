@@ -48,7 +48,7 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
                     InstruktorPrezime = instruktor?.Prezime,
                     PolaznikId = item.PolaznikId,
                     PolaznikIme = polaznik?.Ime,
-                    PolaznikPrezime = polaznik?.Prezime
+                    PolaznikPrezime = polaznik?.Prezime,
                 };
 
                 response.Add(polaznikInstuktorResponse);
@@ -62,4 +62,6 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
             return result;
         }
     }
+
 }
+

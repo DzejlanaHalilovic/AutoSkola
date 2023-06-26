@@ -27,13 +27,13 @@ namespace AutoSkola.Mediator.UserRaspored
                     Errors = new List<string> { "Datum je obavezno polje" },
                     IsSuccess = false
                 };
-            var raspored = await unitOfWork.rasporedRepository.getById(request.request.RasporedId);
-            if (raspored == null)
-                return new Result<Data.Models.UserRaspored>
-                {
-                    Errors = new List<string> { "Raspored nije pronađen" },
-                    IsSuccess = false
-                };
+            //var raspored = await unitOfWork.rasporedRepository.getById(request.request.RasporedId);
+            //if (raspored == null)
+            //    return new Result<Data.Models.UserRaspored>
+            //    {
+            //        Errors = new List<string> { "Raspored nije pronađen" },
+            //        IsSuccess = false
+            //    };
 
             var user = (await unitOfWork.userRepository.GetAll())
                 .Where(u => u.Id == request.request.UserId)
@@ -45,15 +45,15 @@ namespace AutoSkola.Mediator.UserRaspored
                     Errors = new List<string> { "Korisnik nije pronađen" },
                     IsSuccess = false
                 };
-            var rasporedi = await unitOfWork.rasporedRepository.getById(request.request.RasporedId);
-            if (rasporedi == null || (raspored.InstruktorId != request.request.UserId && raspored.PolaznikId != request.request.UserId))
-            {
-                return new Result<Data.Models.UserRaspored>
-                {
-                    Errors = new List<string> { "Nemate ovlašćenje za dodavanje odsustva na ovaj raspored" },
-                    IsSuccess = false
-                };
-            }
+            //var rasporedi = await unitOfWork.rasporedRepository.getById(request.request.RasporedId);
+            //if (rasporedi == null || (raspored.InstruktorId != request.request.UserId && raspored.PolaznikId != request.request.UserId))
+            //{
+            //    return new Result<Data.Models.UserRaspored>
+            //    {
+            //        Errors = new List<string> { "Nemate ovlašćenje za dodavanje odsustva na ovaj raspored" },
+            //        IsSuccess = false
+            //    };
+            //}
             
 
             var odsustvo = new AutoSkola.Data.Models.UserRaspored
@@ -61,7 +61,7 @@ namespace AutoSkola.Mediator.UserRaspored
                 DatumOdsustava = request.request.DatumOdsustava,
                 Razlog = request.request.Razlog,
                 UserId = request.request.UserId,
-                RasporedId = request.request.RasporedId
+                //RasporedId = request.request.RasporedId
             };
             await unitOfWork.userRasporedRepository.Add(odsustvo);
             var result = await unitOfWork.CompleteAsync();

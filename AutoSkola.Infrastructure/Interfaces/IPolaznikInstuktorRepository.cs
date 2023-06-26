@@ -11,5 +11,7 @@ namespace AutoSkola.Infrastructure.Interfaces
     {
         Task<int> GetPolazniciCountByInstruktorId(int instruktorId);
         Task<PolaznikInstuktor> GetPolaznikInstuktorByPolaznikIdAndInstruktorId(int polaznikId, int instruktorId);
+        Task<List<User>> GetInstruktoriByKategorija(int kategorijaId);
+        Task<int> GetBrojPolaznikaByInstruktorId(int instruktorId);
     }
 }
