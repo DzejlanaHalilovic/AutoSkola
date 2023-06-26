@@ -54,17 +54,21 @@ namespace AutoSkola.Data.Migrations
 
             modelBuilder.Entity("AutoSkola.Data.Models.Automobil", b =>
                 {
-                    b.Property<int>("RegBroj")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RegBroj"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("RegBroj");
+                    b.Property<string>("RegBroj")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
 
                     b.ToTable("automobili");
                 });
@@ -77,20 +81,20 @@ namespace AutoSkola.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AutomobilRegBroj")
-                        .HasColumnType("int");
-
                     b.Property<float>("Ocena")
                         .HasColumnType("real");
 
                     b.Property<int>("RasporedId")
                         .HasColumnType("int");
 
+                    b.Property<int>("idauta")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AutomobilRegBroj");
-
                     b.HasIndex("RasporedId");
+
+                    b.HasIndex("idauta");
 
                     b.ToTable("casovi");
                 });
@@ -120,9 +124,6 @@ namespace AutoSkola.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AutomobilRegBroj")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DatumKvara")
                         .HasColumnType("datetime2");
 
@@ -130,9 +131,12 @@ namespace AutoSkola.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("idkvara")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("AutomobilRegBroj");
+                    b.HasIndex("idkvara");
 
                     b.ToTable("kvar");
                 });
@@ -441,15 +445,15 @@ namespace AutoSkola.Data.Migrations
 
             modelBuilder.Entity("AutoSkola.Data.Models.Čas", b =>
                 {
-                    b.HasOne("AutoSkola.Data.Models.Automobil", "Automobil")
-                        .WithMany()
-                        .HasForeignKey("AutomobilRegBroj")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("AutoSkola.Data.Models.Raspored", "Raspored")
                         .WithMany()
                         .HasForeignKey("RasporedId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoSkola.Data.Models.Automobil", "Automobil")
+                        .WithMany()
+                        .HasForeignKey("idauta")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -462,7 +466,9 @@ namespace AutoSkola.Data.Migrations
                 {
                     b.HasOne("AutoSkola.Data.Models.Automobil", "Automobil")
                         .WithMany()
-                        .HasForeignKey("AutomobilRegBroj");
+                        .HasForeignKey("idkvara")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Automobil");
                 });

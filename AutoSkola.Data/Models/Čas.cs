@@ -17,9 +17,9 @@ namespace AutoSkola.Data.Models
         public int RasporedId { get; set; }
         public Raspored? Raspored { get; set; }
 
-        [ForeignKey(nameof(Automobil))]
+        [ForeignKey(nameof(Models.Automobil))]
         [AllowNull]
-        public int AutomobilRegBroj { get; set; }
+        public int idauta { get; set; }
         public Automobil? Automobil { get; set; }
        
 

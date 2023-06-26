@@ -1,4 +1,5 @@
 ﻿using AutoSkola.Contracts.Models.UserRaspored;
+using AutoSkola.Infrastructure;
 using AutoSkola.Mediator.UserRaspored;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +12,12 @@ namespace AutoSkola.Controllers
     public class UserRasporedController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IUnitOfWork unitOfWork;
 
-        public UserRasporedController(IMediator mediator)
+        public UserRasporedController(IMediator mediator,IUnitOfWork unitOfWork)
         {
             this.mediator = mediator;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -56,5 +59,13 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+        [HttpGet("odsustva/{userId}")]
+        public async Task<IActionResult> GetOdsustvaByUserId(int userId)
+        {
+            var odsustva = await unitOfWork.userRasporedRepository.GetAll();
+            var filteredOdsustva = odsustva.Where(o => o.UserId == userId).ToList();
+            return Ok(filteredOdsustva);
+        }
+
     }
 }

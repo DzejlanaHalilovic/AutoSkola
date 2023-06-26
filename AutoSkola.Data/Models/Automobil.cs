@@ -9,9 +9,8 @@ namespace AutoSkola.Data.Models
 {
     public class Automobil
     {
-
-     [Key]
-     public int RegBroj { get; set; }
-     public string Model { get; set; }
+     [Key]   public int Id { get; set; }
+        public string RegBroj { get; set; }
+        public string Model { get; set; }
     }
 }

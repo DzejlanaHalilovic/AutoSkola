@@ -29,7 +29,7 @@ namespace AutoSkola.Mediator.Čas
                     IsSuccess = false
                 };
             cas.RasporedId = request.rasporedId;
-            cas.AutomobilRegBroj = request.automobilId;
+            cas.Id = request.automobilId;
             var result = await unitOfWork.CompleteAsync();
             if (!result)
                 return new Result<Data.Models.Čas>

@@ -17,7 +17,7 @@ namespace AutoSkola.Contracts.Models.Kvar.Request
         public DateTime DatumKvara { get; set; }
       
        
-        public int? AutomobilRegBroj { get; set; }
+        public int Id { get; set; }
       
         
 

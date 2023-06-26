@@ -33,7 +33,7 @@ namespace AutoSkola.Mediator.Kvar
             {
                 Opis = request.request.Opis,
                 DatumKvara = request.request.DatumKvara,
-                AutomobilRegBroj = request.request.AutomobilRegBroj
+                idkvara = request.request.Id
             };
             await unitOfWork.kvarRepository.Add(kvar);
             var result = await unitOfWork.CompleteAsync();

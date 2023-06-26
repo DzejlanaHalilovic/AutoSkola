@@ -33,7 +33,7 @@ namespace AutoSkola.Mediator.Čas
             var newcas = new AutoSkola.Data.Models.Čas
             {
                 RasporedId = request.casrequest.RasporedId,
-                AutomobilRegBroj = request.casrequest.AutomobilRegBroj,
+                idauta = request.casrequest.AutomobilRegBroj,
                 Ocena = request.casrequest.Ocena
             };
             await unitOfWork.časRepository.Add(newcas);

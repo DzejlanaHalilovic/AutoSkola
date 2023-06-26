@@ -152,7 +152,7 @@ namespace AutoSkola.Infrastructure.Repositories
             if(request.Role == 2)
             {
                 await userManager.AddToRoleAsync(user, "Polaznik");
-                //user.EmailConfirmed = true;
+                user.EmailConfirmed = false;
                // await userManager.UpdateAsync(user);
 
 

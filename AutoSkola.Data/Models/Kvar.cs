@@ -15,8 +15,8 @@ namespace AutoSkola.Data.Models
         public DateTime DatumKvara { get; set; }
         [ForeignKey(nameof(Automobil))]
         [AllowNull]
-        public int? AutomobilRegBroj { get; set; }
+        public int idkvara { get; set; }
         [AllowNull]
-        public Automobil? Automobil { get; set; }
+        public Automobil Automobil { get; set; }
     }
 }

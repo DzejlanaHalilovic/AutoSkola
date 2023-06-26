@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace AutoSkola.Data.Migrations
 {
-    public partial class instukorpolaznik : Migration
+    public partial class autanovoje : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -59,13 +59,14 @@ namespace AutoSkola.Data.Migrations
                 name: "automobili",
                 columns: table => new
                 {
-                    RegBroj = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    RegBroj = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Model = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_automobili", x => x.RegBroj);
+                    table.PrimaryKey("PK_automobili", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -244,16 +245,17 @@ namespace AutoSkola.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Opis = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DatumKvara = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AutomobilRegBroj = table.Column<int>(type: "int", nullable: true)
+                    idkvara = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_kvar", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_kvar_automobili_AutomobilRegBroj",
-                        column: x => x.AutomobilRegBroj,
+                        name: "FK_kvar_automobili_idkvara",
+                        column: x => x.idkvara,
                         principalTable: "automobili",
-                        principalColumn: "RegBroj");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -290,16 +292,16 @@ namespace AutoSkola.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Ocena = table.Column<float>(type: "real", nullable: false),
                     RasporedId = table.Column<int>(type: "int", nullable: false),
-                    AutomobilRegBroj = table.Column<int>(type: "int", nullable: false)
+                    idauta = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_casovi", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_casovi_automobili_AutomobilRegBroj",
-                        column: x => x.AutomobilRegBroj,
+                        name: "FK_casovi_automobili_idauta",
+                        column: x => x.idauta,
                         principalTable: "automobili",
-                        principalColumn: "RegBroj",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_casovi_raspored_RasporedId",
@@ -316,9 +318,9 @@ namespace AutoSkola.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<int>(type: "int", nullable: false),
-                    RasporedId = table.Column<int>(type: "int", nullable: false),
                     Razlog = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DatumOdsustava = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    RasporedId = table.Column<int>(type: "int", nullable: true),
                     UserId1 = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -339,8 +341,7 @@ namespace AutoSkola.Data.Migrations
                         name: "FK_userraspored_raspored_RasporedId",
                         column: x => x.RasporedId,
                         principalTable: "raspored",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -383,9 +384,9 @@ namespace AutoSkola.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_casovi_AutomobilRegBroj",
+                name: "IX_casovi_idauta",
                 table: "casovi",
-                column: "AutomobilRegBroj");
+                column: "idauta");
 
             migrationBuilder.CreateIndex(
                 name: "IX_casovi_RasporedId",
@@ -393,9 +394,9 @@ namespace AutoSkola.Data.Migrations
                 column: "RasporedId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_kvar_AutomobilRegBroj",
+                name: "IX_kvar_idkvara",
                 table: "kvar",
-                column: "AutomobilRegBroj");
+                column: "idkvara");
 
             migrationBuilder.CreateIndex(
                 name: "IX_polaznikinstuktor_InstruktorId",

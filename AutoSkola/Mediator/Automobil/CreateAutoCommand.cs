@@ -31,7 +31,7 @@ namespace AutoSkola.Mediator.Automobil
             var auto = new Data.Models.Automobil
             {
                 Model = request.request.Model,
-                RegBroj = request.request.RegBroj
+                RegBroj = request.request.RegBroj.ToString(),   
             };
             await unitOfWork.automobilRepository.Add(auto);
             var result = await unitOfWork.CompleteAsync();
