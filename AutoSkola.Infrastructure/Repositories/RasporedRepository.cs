@@ -47,6 +47,30 @@ namespace AutoSkola.Infrastructure.Repositories
                 return null;
             return list;
         }
+        public async Task<List<Raspored>> GetTop10RasporedaZaInstruktora(int id)
+        {
+            var result = await context.raspored
+                .Where(x => x.InstruktorId == id)
+                .OrderByDescending(x => x.DatumVreme)
+                .Take(10)
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Raspored>> GetFilteredRasporedaZaInstruktora(int id, DateTime? datum)
+{
+            var query = context.raspored.Where(x => x.InstruktorId == id);
+
+            if (datum.HasValue)
+            {
+                // Filtriraj rasporede po unetom datumu
+                query = query.Where(x => x.DatumVreme.Date == datum.Value.Date);
+            }
+
+            var result = await query.ToListAsync();
+            return result;
+}
 
     }
 }

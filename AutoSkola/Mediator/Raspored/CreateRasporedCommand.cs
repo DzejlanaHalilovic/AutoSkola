@@ -3,6 +3,7 @@ using AutoSkola.Contracts.Models;
 using AutoSkola.Contracts.Models.Raspored.Request;
 using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure;
+using AutoSkola.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System.Globalization;
@@ -24,7 +25,7 @@ namespace AutoSkola.Mediator.Raspored
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
         }
-      
+
 
         public async Task<Result<Data.Models.Raspored>> Handle(CreateRasporedCommand request, CancellationToken cancellationToken)
         {
@@ -33,7 +34,6 @@ namespace AutoSkola.Mediator.Raspored
 
             var raspored = new AutoSkola.Data.Models.Raspored
             {
-
                 DatumVreme = request.rasporedRequest.DatumVreme,
                 InstruktorId = instruktor.Id,
                 PolaznikId = polaznik.Id
@@ -44,11 +44,19 @@ namespace AutoSkola.Mediator.Raspored
             if (!result)
                 return new Result<Data.Models.Raspored>
                 {
-                    Errors = new List<string> { "error in adding daata" },
+                    Errors = new List<string> { "error in adding data" },
                     IsSuccess = false
                 };
-            return new Result<Data.Models.Raspored> { Data = raspored };
 
+            var polaznikInstuktor = await unitOfWork.polaznikInstuktorRepository.GetPolaznikInstuktorByPolaznikId(polaznik.Id);
+            if (polaznikInstuktor != null)
+            {
+                polaznikInstuktor.BrojCasova -= 1; // Smanjenje broja časova za 1
+                await unitOfWork.CompleteAsync(); // Čuvanje izmena u bazi podataka
+            }
+
+            return new Result<Data.Models.Raspored> { Data = raspored };
         }
+
     }
 }

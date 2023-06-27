@@ -49,6 +49,7 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
                     PolaznikId = item.PolaznikId,
                     PolaznikIme = polaznik?.Ime,
                     PolaznikPrezime = polaznik?.Prezime,
+                    BrojCasova = item.BrojCasova,
                 };
 
                 response.Add(polaznikInstuktorResponse);

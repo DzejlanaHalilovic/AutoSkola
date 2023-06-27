@@ -91,6 +91,19 @@ namespace AutoSkola.Controllers
                 return null;
             return Ok(result);
         }
+        [HttpGet("instuktorfilter/{id}")]
+        public async Task<IActionResult> getInstuktorRasporedfilter(int id)
+        {
+            var result = await unitOfWork.rasporedRepository.GetTop10RasporedaZaInstruktora(id);
+            return Ok(result);
+        }
+        [HttpGet("filterpodatumu/{datum}/instukor/{id}")]
+        public async Task<IActionResult> getInstuktorRaspored(int id, DateTime? datum)
+        {
+            var result = await unitOfWork.rasporedRepository.GetFilteredRasporedaZaInstruktora(id, datum);
+            return Ok(result);
+        }
+
 
     }
 }
