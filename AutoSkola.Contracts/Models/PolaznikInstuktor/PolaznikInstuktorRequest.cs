@@ -15,5 +15,6 @@ namespace AutoSkola.Contracts.Models.PolaznikInstuktor
       
 
         public int PolaznikId { get; set; }
+        public int BrojCasova { get; set; }
     }
 }

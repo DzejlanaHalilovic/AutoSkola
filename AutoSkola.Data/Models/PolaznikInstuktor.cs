@@ -22,7 +22,10 @@ namespace AutoSkola.Data.Models
         public int PolaznikId { get; set; }
         [ForeignKey(nameof(PolaznikId))]
         public User? Polaznik { get; set; }
-    
+        public int? BrojCasova { get; set; }
+
+
+
 
 
 

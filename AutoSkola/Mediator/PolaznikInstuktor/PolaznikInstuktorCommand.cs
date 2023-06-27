@@ -87,7 +87,8 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
             var korisnici = new AutoSkola.Data.Models.PolaznikInstuktor
             {
                 InstruktorId = request.Request.InstruktorId,
-                PolaznikId = request.Request.PolaznikId
+                PolaznikId = request.Request.PolaznikId,
+                BrojCasova = request.Request.BrojCasova
             };
             await unitOfWork.polaznikInstuktorRepository.Add(korisnici);
             var result = await unitOfWork.CompleteAsync();
