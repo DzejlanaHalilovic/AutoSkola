@@ -44,6 +44,12 @@ namespace AutoSkola.Infrastructure.Repositories
             return await context.polaznikinstuktor
                 .CountAsync(pi => pi.InstruktorId == instruktorId);
         }
+        public async Task<List<PolaznikInstuktor>> GetByInstruktorIdAsync(int instruktorId)
+        {
+            return await context.Set<PolaznikInstuktor>()
+                .Where(pi => pi.InstruktorId == instruktorId)
+                .ToListAsync();
+        }
 
 
 

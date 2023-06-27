@@ -18,7 +18,7 @@ namespace AutoSkola.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>CreateKategorija(CreateKategorijaRequest request)
+        public async Task<IActionResult>CreateKategorija([FromForm] CreateKategorijaRequest request)
         {
             var result = await mediator.Send(new CreateKategorijaCommand(request));
             if (!result.IsSuccess)
@@ -27,7 +27,7 @@ namespace AutoSkola.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> getAll() => Ok(await mediator.Send(new GetAllKategorijaQuery()));
+        public async Task<IActionResult> getAll([FromQuery] KategorijaFilter request) => Ok(await mediator.Send(new GetAllKategorijaQuery(request)));
 
         [HttpGet("{id}")]
         public async Task<IActionResult>GetById(int id)
@@ -54,6 +54,8 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+
+        
 
     }
 }

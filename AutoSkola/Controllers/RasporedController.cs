@@ -73,5 +73,24 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.IsSuccess);
         }
+
+        [HttpGet("polaznik/{id}")]
+        public async Task<IActionResult>getPolaznikRaspored(int id)
+        {
+            var result = await unitOfWork.rasporedRepository.getrasporedzapolaznika(id);
+            if (result == null)
+                return null;
+            return Ok(result);
+        }
+
+        [HttpGet("instuktor/{id}")]
+        public async Task<IActionResult> getInstuktorRaspored(int id)
+        {
+            var result = await unitOfWork.rasporedRepository.getrasporedzaintukora(id);
+            if (result == null)
+                return null;
+            return Ok(result);
+        }
+
     }
 }

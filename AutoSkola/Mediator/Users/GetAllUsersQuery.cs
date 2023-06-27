@@ -27,23 +27,44 @@ namespace AutoSkola.Mediator.Users
             this.mapper = mapper;
             this.kategorijaRepository = kategorijaRepository;
         }
-
         public async Task<Result<IEnumerable<UserResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var lista = await userManager.Users.Include(u => u.userkategorija).ToListAsync();
-            var mappedList = mapper.Map<List<UserResponse>>(lista);
+            var userList = new List<UserResponse>();
 
-            foreach (var userResponse in mappedList)
+            var users = await userManager.Users.ToListAsync();
+            foreach (var user in users)
             {
-                var kategorijaId = userResponse.kategorijaId;
-                var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId);
-                userResponse.TipKategorije = kategorija?.Tip ?? string.Empty;
+                var userWithKategorija = await userManager.Users.Include(u => u.userkategorija)
+                                                              .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+                var mappedUser = mapper.Map<UserResponse>(userWithKategorija);
+
+                var kategorijaId = userWithKategorija?.userkategorija?.FirstOrDefault()?.KategorijaId;
+                if (kategorijaId != null)
+                {
+                    var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
+                    mappedUser.TipKategorije = kategorija?.Tip;
+                }
+
+                userList.Add(mappedUser);
+            }
+
+            if (userList.Count == 0)
+            {
+                return new Result<IEnumerable<UserResponse>>
+                {
+                    Errors = new List<string> { "There are no users" },
+                    IsSuccess = false
+                };
             }
 
             return new Result<IEnumerable<UserResponse>>
             {
-                Data = mappedList
+                Data = userList
             };
         }
+
+
+
     }
 }

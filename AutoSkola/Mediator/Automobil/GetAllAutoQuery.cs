@@ -1,6 +1,10 @@
 ﻿using AutoSkola.Contracts.Models;
 using AutoSkola.Infrastructure;
 using MediatR;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AutoSkola.Mediator.Automobil
 {
@@ -19,10 +23,23 @@ namespace AutoSkola.Mediator.Automobil
         }
         public async Task<Result<IEnumerable<Data.Models.Automobil>>> Handle(GetAllAutoQuery request, CancellationToken cancellationToken)
         {
-            var lista = await unitOfWork.automobilRepository.GetAll();
+            var automobili = await unitOfWork.automobilRepository.GetAll();
+
+            var automobiliBezKvara = new List<Data.Models.Automobil>();
+
+            foreach (var automobil in automobili)
+            {
+                var kvar = await unitOfWork.kvarRepository.GetByAutomobilId(automobil.Id);
+
+                if (kvar == null)
+                {
+                    automobiliBezKvara.Add(automobil);
+                }
+            }
+
             return new Result<IEnumerable<Data.Models.Automobil>>
             {
-                Data = lista
+                Data = automobiliBezKvara
             };
         }
     }

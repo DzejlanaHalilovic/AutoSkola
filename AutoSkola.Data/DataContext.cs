@@ -68,11 +68,14 @@ namespace AutoSkola.Data
                 .WithMany()
                 .HasForeignKey(r => r.PolaznikId)
                 .OnDelete(DeleteBehavior.NoAction);
+        
+           
 
 
 
 
-            modelBuilder.Entity<UserRaspored>()
+
+        modelBuilder.Entity<UserRaspored>()
                 .HasKey(x => x.Id);
             modelBuilder.Entity<UserRaspored>()
                 .HasOne(ur => ur.User)

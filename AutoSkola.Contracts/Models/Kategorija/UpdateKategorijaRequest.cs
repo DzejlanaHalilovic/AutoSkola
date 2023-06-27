@@ -9,5 +9,6 @@ namespace AutoSkola.Contracts.Models.Kategorija
     public class UpdateKategorijaRequest
     {
         public string Tip { get; set; }
+
     }
 }

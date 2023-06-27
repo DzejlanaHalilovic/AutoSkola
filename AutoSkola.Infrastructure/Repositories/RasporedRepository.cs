@@ -26,6 +26,27 @@ namespace AutoSkola.Infrastructure.Repositories
                 .Where(r => r.PolaznikId == polaznikId)
                 .ToListAsync();
         }
+        public async Task<List<Raspored>> GetByInstruktorIdAsync(int instruktorId)
+        {
+            return await context.Set<Raspored>()
+                .Where(pi => pi.InstruktorId == instruktorId)
+                .ToListAsync();
+        }
+       
+        public async Task<List<Raspored>>getrasporedzapolaznika(int idusera)
+        {
+            var list = await context.raspored.Where(x => x.PolaznikId == idusera).ToListAsync();
+            if (list == null)
+                return null;
+            return list;
+        }
+        public async Task<List<Raspored>> getrasporedzaintukora(int idusera)
+        {
+            var list = await context.raspored.Where(x => x.InstruktorId == idusera).ToListAsync();
+            if (list == null)
+                return null;
+            return list;
+        }
 
     }
 }

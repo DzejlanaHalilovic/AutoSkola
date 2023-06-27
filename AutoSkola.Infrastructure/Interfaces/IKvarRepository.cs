@@ -9,5 +9,6 @@ namespace AutoSkola.Infrastructure.Interfaces
 {
     public  interface IKvarRepository : IRepository<Kvar>
     {
+        Task<Kvar> GetByAutomobilId(int automobilId);
     }
 }

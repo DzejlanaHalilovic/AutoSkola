@@ -7,7 +7,7 @@ using MediatR;
 
 namespace AutoSkola.Mediator.Kategorija
 {
-    public class GetAllKategorijaQuery : IRequest<Result<IEnumerable<CreateKategorijaResponse>>>
+    public record GetAllKategorijaQuery(KategorijaFilter Request) : IRequest<Result<IEnumerable<CreateKategorijaResponse>>>
     {
     }
 
@@ -23,7 +23,9 @@ namespace AutoSkola.Mediator.Kategorija
         }
         public async Task<Result<IEnumerable<CreateKategorijaResponse>>> Handle(GetAllKategorijaQuery request, CancellationToken cancellationToken)
         {
-            var lista = await unitOfWork.kategorijaRepository.GetAll();
+            var lista = new List<AutoSkola.Data.Models.Kategorija>();
+            //var lista = await unitOfWork.kategorijaRepository.GetAll();
+            lista = await unitOfWork.kategorijaRepository.ApplyPaging(request.Request.currPage, request.Request.pageSize);
             var response = mapper.Map<IEnumerable<CreateKategorijaResponse>>(lista);
             var result = new Result<IEnumerable<CreateKategorijaResponse>>
             {

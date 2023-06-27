@@ -19,6 +19,7 @@ namespace AutoSkola.Infrastructure
         IUserRasporedRepository userRasporedRepository { get; } 
         IPolaznikInstuktorRepository polaznikInstuktorRepository { get; }
         Task<bool> CompleteAsync();
+
         
     }
 }

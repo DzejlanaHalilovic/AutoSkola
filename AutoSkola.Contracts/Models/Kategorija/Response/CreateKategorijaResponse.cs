@@ -10,6 +10,7 @@ namespace AutoSkola.Contracts.Models.Kategorija.Response
     {
         public int Id { get; set; }
         public string Tip { get; set; }
+        public string Putanja { get; set; }
 
     }
 }

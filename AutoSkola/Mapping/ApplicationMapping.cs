@@ -26,7 +26,7 @@ namespace AutoSkola.Mapping
    .ForMember(dest => dest.userkategorija, opt => opt.MapFrom(src => new List<UserKategorija> { new UserKategorija { KategorijaId = src.kategorijaId } }));
             CreateMap<User, UserResponse>()
            .ForMember(dest => dest.kategorijaId, opt => opt.MapFrom(src => src.userkategorija.FirstOrDefault().KategorijaId));
-
+            CreateMap<UserResponse, User>();
            
             CreateMap<CreateRasporedRequest, Raspored>();
             CreateMap<Raspored, RasporedResponse>();

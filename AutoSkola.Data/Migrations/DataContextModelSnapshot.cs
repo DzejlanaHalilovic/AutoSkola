@@ -107,6 +107,10 @@ namespace AutoSkola.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("Putanja")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Tip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -478,13 +482,13 @@ namespace AutoSkola.Data.Migrations
                     b.HasOne("AutoSkola.Data.Models.User", "Instruktor")
                         .WithMany()
                         .HasForeignKey("InstruktorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoSkola.Data.Models.User", "Polaznik")
                         .WithMany()
                         .HasForeignKey("PolaznikId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Instruktor");
@@ -497,13 +501,13 @@ namespace AutoSkola.Data.Migrations
                     b.HasOne("AutoSkola.Data.Models.User", "Instruktor")
                         .WithMany()
                         .HasForeignKey("InstruktorId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("AutoSkola.Data.Models.User", "Polaznik")
                         .WithMany()
                         .HasForeignKey("PolaznikId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Instruktor");

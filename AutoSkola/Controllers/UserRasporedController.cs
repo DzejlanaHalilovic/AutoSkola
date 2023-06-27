@@ -66,6 +66,30 @@ namespace AutoSkola.Controllers
             var filteredOdsustva = odsustva.Where(o => o.UserId == userId).ToList();
             return Ok(filteredOdsustva);
         }
+        [HttpDelete("odsustva/{userId}")]
+        public async Task<IActionResult> DeleteOdsustvaByUserId(int userId)
+        {
+            try
+            {
+                var odsustva = await unitOfWork.userRasporedRepository.GetAll();
+                var filteredOdsustva = odsustva.Where(o => o.UserId == userId).ToList();
+
+                foreach (var odsustvo in filteredOdsustva)
+                {
+                    unitOfWork.userRasporedRepository.Delete(odsustvo);
+                }
+
+                await unitOfWork.CompleteAsync();
+
+                return Ok("Odsustvo je uspešno obrisano.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Došlo je do greške prilikom brisanja odsustva.");
+            }
+        }
+
+
 
     }
 }

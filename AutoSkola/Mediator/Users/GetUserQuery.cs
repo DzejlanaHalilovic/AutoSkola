@@ -33,6 +33,14 @@ namespace AutoSkola.Mediator.Users
         {
             var user = await userManager.Users.Include(u => u.userkategorija).FirstOrDefaultAsync(u => u.Id == request.id);
 
+            var mappedUser = mapper.Map<UserResponse>(user);
+
+            var kategorijaId = user?.userkategorija?.FirstOrDefault()?.KategorijaId;
+            if (kategorijaId != null)
+            {
+                var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
+                mappedUser.TipKategorije = kategorija?.Tip;
+            }
             if (user == null)
             {
                 return new Result<UserResponse>
@@ -42,14 +50,14 @@ namespace AutoSkola.Mediator.Users
                 };
             }
 
-            var mappedUser = mapper.Map<UserResponse>(user);
+            //var mappedUser = mapper.Map<UserResponse>(user);
 
-            var kategorijaId = user.userkategorija?.FirstOrDefault().KategorijaId;
-            if (kategorijaId != null)
-            {
-                var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
-                mappedUser.TipKategorije = kategorija?.Tip;
-            }
+            //var kategorijaId = user.userkategorija?.FirstOrDefault().KategorijaId;
+            //if (kategorijaId != null)
+            //{
+                //var kategorija = await kategorijaRepository.GetKategorijaByIdAsync(kategorijaId.Value);
+               // mappedUser.TipKategorije = kategorija?.Tip;
+           // }
 
             return new Result<UserResponse>
             {

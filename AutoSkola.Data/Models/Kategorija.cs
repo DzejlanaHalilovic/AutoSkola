@@ -14,5 +14,6 @@ namespace AutoSkola.Data.Models
         public string Tip { get; set; }
 
         public List<UserKategorija>userkategorija { get; set; }
+        public string Putanja { get; set; }
     }
 }
