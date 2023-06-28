@@ -12,5 +12,6 @@ namespace AutoSkola.Data.Models
      [Key]   public int Id { get; set; }
         public string RegBroj { get; set; }
         public string Model { get; set; }
+      
     }
 }

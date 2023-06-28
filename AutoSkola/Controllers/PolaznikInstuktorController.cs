@@ -35,6 +35,7 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+       
 
         [HttpGet]
         public async Task<IActionResult> GetAll() => Ok(await mediator.Send(new GetAllPolaznikInstuktorQuery()));

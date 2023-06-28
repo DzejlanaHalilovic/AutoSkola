@@ -26,6 +26,17 @@ namespace AutoSkola.Infrastructure.Repositories
                 .Where(c => c.RasporedId == rasporedId)
                 .ToListAsync();
         }
+        //public async Task<bool> AddMark(Čas request)
+        //{
+
+        //}
+        public async Task<List<Čas>> GetOceneByPolaznikId(int polaznikId)
+        {
+            return await context.casovi
+                .Include(c => c.Raspored)
+                .Where(c => c.Raspored.PolaznikId == polaznikId)
+                .ToListAsync();
+        }
 
 
     }

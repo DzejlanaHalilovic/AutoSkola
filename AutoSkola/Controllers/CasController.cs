@@ -1,4 +1,5 @@
 ﻿using AutoSkola.Contracts.Models.Čas.Request;
+using AutoSkola.Contracts.Models.PolaznikInstuktor;
 using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure;
 using AutoSkola.Mediator.Čas;
@@ -88,6 +89,20 @@ namespace AutoSkola.Controllers
             return Ok(casovi);
         }
 
+        [HttpPost("ocena")]
+        public async Task<IActionResult> createocena(CreateCasRequest request)
+        {
+            var result = await mediator.Send(new CreateCasCommand(request));
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
+        [HttpGet("ocene/polaznik/{polaznikId}")]
+        public async Task<ActionResult<List<Čas>>> GetOceneByPolaznikId(int polaznikId)
+        {
+            var ocene = await unitOfWork.časRepository.GetOceneByPolaznikId(polaznikId);
+            return Ok(ocene);
+        }
 
     }
 }

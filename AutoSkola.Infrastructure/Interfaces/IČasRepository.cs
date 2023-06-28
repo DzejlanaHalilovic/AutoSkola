@@ -10,6 +10,7 @@ namespace AutoSkola.Infrastructure.Interfaces
     public interface IČasRepository : IRepository<Čas>
     {
         Task<List<Čas>> GetCasoviByRasporedId(int rasporedId);
-
+        //Task<bool> AddMark(Čas request);
+        Task<List<Čas>> GetOceneByPolaznikId(int polaznikId);
     }
 }

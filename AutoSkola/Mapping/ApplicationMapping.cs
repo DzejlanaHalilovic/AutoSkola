@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoSkola.Contracts.Models.Čas.Request;
 using AutoSkola.Contracts.Models.Identity.Request;
 using AutoSkola.Contracts.Models.Identity.Response;
 using AutoSkola.Contracts.Models.Kategorija;
@@ -35,6 +36,7 @@ namespace AutoSkola.Mapping
             CreateMap<RasporedResponse, UserRaspored>();
             CreateMap<User, UserRaspored>();
             CreateMap<UserRaspored, RasporedResponse>();
+            CreateMap<Čas, ČasResponse>();
 
 
 
