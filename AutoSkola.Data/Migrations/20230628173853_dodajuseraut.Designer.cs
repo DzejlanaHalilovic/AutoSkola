@@ -4,6 +4,7 @@ using AutoSkola.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoSkola.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230628173853_dodajuseraut")]
+    partial class dodajuseraut
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,7 +309,7 @@ namespace AutoSkola.Data.Migrations
 
                     b.HasIndex("InstruktorId");
 
-                    b.ToTable("userAutomobil");
+                    b.ToTable("UserAutomobil");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.UserKategorija", b =>

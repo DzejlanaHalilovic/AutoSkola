@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 
 namespace AutoSkola.Infrastructure.Interfaces
 {
-    public interface IAutomobilRepository : IRepository<Automobil>
+    public interface IUserAutoRepository :IRepository<UserAutomobil>
     {
-        Task<IEnumerable<Automobil>> GetByUserId(int userId);
-        
-     }
+    }
 }

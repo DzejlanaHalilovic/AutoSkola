@@ -1,4 +1,6 @@
 ﻿using AutoSkola.Contracts.Models.Automobil.Request;
+using AutoSkola.Infrastructure;
+using AutoSkola.Infrastructure.Repositories;
 using AutoSkola.Mediator.Automobil;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -11,10 +13,12 @@ namespace AutoSkola.Controllers
     public class AutomobilController : ControllerBase
     {
         private readonly IMediator mediator;
+        private readonly IUnitOfWork unitOfWork;
 
-        public AutomobilController(IMediator mediator)
+        public AutomobilController(IMediator mediator,IUnitOfWork unitOfWork)
         {
             this.mediator = mediator;
+            this.unitOfWork = unitOfWork;
         }
 
         [HttpGet]
@@ -56,7 +60,13 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
-        
+        [HttpGet("user/{userId}")]
+        public async Task<IActionResult> GetByUserId(int userId)
+        {
+            var automobili = await unitOfWork.automobilRepository.GetByUserId(userId);
+            return Ok(automobili);
+        }
+
 
     }
 }

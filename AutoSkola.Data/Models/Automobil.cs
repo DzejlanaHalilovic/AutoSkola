@@ -19,8 +19,8 @@ namespace AutoSkola.Data.Models
         public int KategorijaId { get; set; }
        
         public Kategorija Kategorija { get; set; }
-       
-        
+
+      
 
 
     }

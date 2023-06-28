@@ -20,6 +20,23 @@ namespace AutoSkola.Infrastructure.Repositories
 
         public DataContext Context { get; }
 
-       
+        public async Task<IEnumerable<Automobil>> GetByUserId(int userId)
+        {
+            var kategorijaIds = await Context.userkategorija
+                .Where(uk => uk.UserId == userId)
+                .Select(uk => uk.KategorijaId)
+                .ToListAsync();
+
+            var dodeljeniAutomobili = await Context.userAutomobil
+                .Where(ua => ua.InstruktorId != null)
+                .Select(ua => ua.AutomobilId)
+                .ToListAsync();
+
+            return await Context.automobili
+                .Where(a => kategorijaIds.Contains(a.KategorijaId) && !dodeljeniAutomobili.Contains(a.Id))
+                .ToListAsync();
+        }
+
+
     }
 }

@@ -4,7 +4,7 @@
 
 namespace AutoSkola.Data.Migrations
 {
-    public partial class pokusaj : Migration
+    public partial class pokusajtir : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

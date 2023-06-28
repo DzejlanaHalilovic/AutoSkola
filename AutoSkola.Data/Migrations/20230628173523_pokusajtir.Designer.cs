@@ -4,6 +4,7 @@ using AutoSkola.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoSkola.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230628173523_pokusajtir")]
+    partial class pokusajtir
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -287,29 +289,6 @@ namespace AutoSkola.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("AutoSkola.Data.Models.UserAutomobil", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
-
-                    b.Property<int>("AutomobilId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InstruktorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("AutomobilId");
-
-                    b.HasIndex("InstruktorId");
-
-                    b.ToTable("userAutomobil");
-                });
-
             modelBuilder.Entity("AutoSkola.Data.Models.UserKategorija", b =>
                 {
                     b.Property<int>("Id")
@@ -543,25 +522,6 @@ namespace AutoSkola.Data.Migrations
                     b.Navigation("Instruktor");
 
                     b.Navigation("Polaznik");
-                });
-
-            modelBuilder.Entity("AutoSkola.Data.Models.UserAutomobil", b =>
-                {
-                    b.HasOne("AutoSkola.Data.Models.Automobil", "Automobil")
-                        .WithMany()
-                        .HasForeignKey("AutomobilId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("AutoSkola.Data.Models.User", "Instruktor")
-                        .WithMany()
-                        .HasForeignKey("InstruktorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Automobil");
-
-                    b.Navigation("Instruktor");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.UserKategorija", b =>

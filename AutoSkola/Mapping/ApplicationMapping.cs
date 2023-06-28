@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoSkola.Contracts.Models.Automobil.Request;
+using AutoSkola.Contracts.Models.Automobil.Response;
 using AutoSkola.Contracts.Models.Čas.Request;
 using AutoSkola.Contracts.Models.Identity.Request;
 using AutoSkola.Contracts.Models.Identity.Response;
@@ -32,11 +34,12 @@ namespace AutoSkola.Mapping
             CreateMap<CreateRasporedRequest, Raspored>();
             CreateMap<Raspored, RasporedResponse>();
             CreateMap<PolaznikInstuktor, PolaznikInstuktorResponse>();
-            // Konfiguracija za mapiranje između UserRaspored i RasporedResponse
             CreateMap<RasporedResponse, UserRaspored>();
             CreateMap<User, UserRaspored>();
             CreateMap<UserRaspored, RasporedResponse>();
             CreateMap<Čas, ČasResponse>();
+            CreateMap<UserAutomobil, CreateUserAutoRequest>();
+            CreateMap<UserAutomobil, CreateUserAutoResponse>();
 
 
 

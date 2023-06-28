@@ -14,7 +14,7 @@ namespace AutoSkola.Infrastructure
     {
         private readonly DataContext context;
 
-        public UnitOfWork(DataContext context,IAutomobilRepository automobilRepository, IČasRepository časRepository, IKategorijaRepository kategorijaRepository, IKvarRepository kvarRepository, IRasporedRepository rasporedRepository, IUserRepository userRepository, IUserRasporedRepository userRasporedRepository, IPolaznikInstuktorRepository polaznikInstuktorRepository)
+        public UnitOfWork(DataContext context,IAutomobilRepository automobilRepository, IČasRepository časRepository, IKategorijaRepository kategorijaRepository, IKvarRepository kvarRepository, IRasporedRepository rasporedRepository, IUserRepository userRepository, IUserRasporedRepository userRasporedRepository, IPolaznikInstuktorRepository polaznikInstuktorRepository,IUserAutoRepository userAutoRepository)
         {
             this.context = context;
             this.automobilRepository = automobilRepository;
@@ -25,6 +25,7 @@ namespace AutoSkola.Infrastructure
             this.userRepository = userRepository;
             this.userRasporedRepository = userRasporedRepository;
             this.polaznikInstuktorRepository = polaznikInstuktorRepository;
+            this.userAutoRepository = userAutoRepository;
         }
         public IAutomobilRepository automobilRepository { get; }
 
@@ -41,6 +42,7 @@ namespace AutoSkola.Infrastructure
         public IUserRasporedRepository userRasporedRepository { get; }
 
         public IPolaznikInstuktorRepository polaznikInstuktorRepository { get; }
+        public IUserAutoRepository userAutoRepository { get; }
 
         public async  Task<bool> CompleteAsync()
         {
