@@ -20,6 +20,8 @@ namespace AutoSkola.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll() => Ok(await mediator.Send(new GetAllAutoQuery()));
 
+       
+
         [HttpGet("{id}")]
         public async Task<IActionResult>GetById(int id)
         {
@@ -54,5 +56,7 @@ namespace AutoSkola.Controllers
                 return BadRequest(result.Errors.FirstOrDefault());
             return Ok(result.Data);
         }
+        
+
     }
 }

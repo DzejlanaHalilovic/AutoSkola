@@ -2,6 +2,7 @@
 using AutoSkola.Data;
 using AutoSkola.Data.Models;
 using AutoSkola.Infrastructure.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,11 @@ namespace AutoSkola.Infrastructure.Repositories
     {
         public AutomobilRepository(DataContext context, IMapper mapper) : base(context, mapper)
         {
+            Context = context;
         }
+
+        public DataContext Context { get; }
+
+       
     }
 }

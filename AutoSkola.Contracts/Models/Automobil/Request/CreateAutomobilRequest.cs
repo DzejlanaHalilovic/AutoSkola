@@ -10,5 +10,6 @@ namespace AutoSkola.Contracts.Models.Automobil.Request
     {
         public int RegBroj { get; set; }
         public string Model { get; set; }
+        public int KategorijaId { get; set; }
     }
 }

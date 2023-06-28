@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AutoSkola.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230628004017_menjanjetipa")]
-    partial class menjanjetipa
+    [Migration("20230628115727_nista")]
+    partial class nista
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -62,6 +62,9 @@ namespace AutoSkola.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("KategorijaId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Model")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -71,6 +74,8 @@ namespace AutoSkola.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("KategorijaId");
 
                     b.ToTable("automobili");
                 });
@@ -446,6 +451,17 @@ namespace AutoSkola.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("AutoSkola.Data.Models.Automobil", b =>
+                {
+                    b.HasOne("AutoSkola.Data.Models.Kategorija", "Kategorija")
+                        .WithMany()
+                        .HasForeignKey("KategorijaId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Kategorija");
                 });
 
             modelBuilder.Entity("AutoSkola.Data.Models.Čas", b =>

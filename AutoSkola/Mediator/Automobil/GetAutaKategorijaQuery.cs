@@ -1,15 +1,23 @@
 ﻿using AutoSkola.Contracts.Models;
 using AutoSkola.Infrastructure;
 using MediatR;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace AutoSkola.Mediator.Automobil
 {
-    public class GetAutaKategorijaQuery :  IRequest<Result<IEnumerable<Data.Models.Automobil>>>
+    public class GetAutaKategorijaQuery : IRequest<Result<IEnumerable<Data.Models.Automobil>>>
     {
+        public int KategorijaId { get; set; }
+
+        public GetAutaKategorijaQuery(int kategorijaId)
+        {
+            KategorijaId = kategorijaId;
+        }
     }
 
-
-    public class GetAutoKategorijaHandler : IRequestHandler<GetAllAutoQuery, Result<IEnumerable<Data.Models.Automobil>>>
+    public class GetAutoKategorijaHandler : IRequestHandler<GetAutaKategorijaQuery, Result<IEnumerable<Data.Models.Automobil>>>
     {
         private readonly IUnitOfWork unitOfWork;
 
@@ -17,9 +25,11 @@ namespace AutoSkola.Mediator.Automobil
         {
             this.unitOfWork = unitOfWork;
         }
-        public Task<Result<IEnumerable<Data.Models.Automobil>>> Handle(GetAllAutoQuery request, CancellationToken cancellationToken)
+
+        public async Task<Result<IEnumerable<Data.Models.Automobil>>> Handle(GetAutaKategorijaQuery request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return null;
         }
+
     }
 }
