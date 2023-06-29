@@ -103,6 +103,14 @@ namespace AutoSkola.Controllers
             var result = await unitOfWork.rasporedRepository.GetFilteredRasporedaZaInstruktora(id, datum);
             return Ok(result);
         }
+        [HttpPost("nijepostovanraspored")]
+        public async Task<IActionResult> NijePostovanRaspored(CreateRasporedRequest request)
+        {
+            var result = await mediator.Send(new CreateOdsustvoRasporedCommand(request));
+            if (!result.IsSuccess)
+                return BadRequest(result.Errors.FirstOrDefault());
+            return Ok(result.Data);
+        }
 
 
     }

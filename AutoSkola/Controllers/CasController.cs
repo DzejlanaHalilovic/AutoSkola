@@ -66,26 +66,24 @@ namespace AutoSkola.Controllers
         [HttpGet("moji-casovi/ocene")]
         public async Task<ActionResult<List<Čas>>> GetOceneMojiCasovi()
         {
-            // Dohvatite trenutno prijavljenog polaznika
+            
             var currentUser = await userManager.GetUserAsync(HttpContext.User);
             if (currentUser == null)
             {
-                // Korisnik nije prijavljen, vratite odgovarajući rezultat ili grešku
+              
                 return Unauthorized();
             }
 
-            // Dohvatite rasporede u kojima je prijavljen polaznik
+           
             var rasporedi = await unitOfWork.rasporedRepository.GetRasporediByPolaznikId(currentUser.Id);
 
-            // Dohvatite časove za svaki raspored sa ocenama
+           
             var casovi = new List<Čas>();
             foreach (var raspored in rasporedi)
             {
                 var rasporedCasovi = await unitOfWork.časRepository.GetCasoviByRasporedId(raspored.Id);
                 casovi.AddRange(rasporedCasovi);
             }
-
-            // Vratite listu časova sa ocenama
             return Ok(casovi);
         }
 
