@@ -74,7 +74,7 @@ namespace AutoSkola.Data
         .HasOne(a => a.Kategorija)
         .WithMany()
         .HasForeignKey(a => a.KategorijaId)
-        .OnDelete(DeleteBehavior.NoAction);
+        .OnDelete(DeleteBehavior.Cascade);
             modelBuilder.Entity<UserAutomobil>()
        .HasOne(a => a.Automobil)
        .WithMany()
