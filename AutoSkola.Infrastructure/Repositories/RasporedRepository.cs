@@ -47,12 +47,12 @@ namespace AutoSkola.Infrastructure.Repositories
                 return null;
             return list;
         }
-        public async Task<List<Raspored>> GetTop10RasporedaZaInstruktora(int id)
+        public async Task<List<Raspored>> GetTop15RasporedaZaInstruktora(int id)
         {
             var result = await context.raspored
                 .Where(x => x.InstruktorId == id)
                 .OrderByDescending(x => x.DatumVreme)
-                .Take(10)
+                .Take(15)
                 .ToListAsync();
 
             return result;

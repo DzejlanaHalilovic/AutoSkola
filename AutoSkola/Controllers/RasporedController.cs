@@ -94,7 +94,7 @@ namespace AutoSkola.Controllers
         [HttpGet("instuktorfilter/{id}")]
         public async Task<IActionResult> getInstuktorRasporedfilter(int id)
         {
-            var result = await unitOfWork.rasporedRepository.GetTop10RasporedaZaInstruktora(id);
+            var result = await unitOfWork.rasporedRepository.GetTop15RasporedaZaInstruktora(id);
             return Ok(result);
         }
         [HttpGet("filterpodatumu/{datum}/instukor/{id}")]

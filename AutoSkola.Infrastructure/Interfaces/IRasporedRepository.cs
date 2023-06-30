@@ -14,7 +14,7 @@ namespace AutoSkola.Infrastructure.Interfaces
         Task<List<Raspored>> GetByInstruktorIdAsync(int instruktorId);
         Task<List<Raspored>> getrasporedzapolaznika(int idusera);
         Task<List<Raspored>> getrasporedzaintukora(int idusera);
-        Task<List<Raspored>> GetTop10RasporedaZaInstruktora(int id);
+        Task<List<Raspored>> GetTop15RasporedaZaInstruktora(int id);
         Task<List<Raspored>> GetFilteredRasporedaZaInstruktora(int id, DateTime? datum);
     }
 }

@@ -79,7 +79,7 @@ namespace AutoSkola.Data
        .HasOne(a => a.Automobil)
        .WithMany()
        .HasForeignKey(a => a.AutomobilId)
-       .OnDelete(DeleteBehavior.NoAction);
+       .OnDelete(DeleteBehavior.Cascade);
 
 
 
