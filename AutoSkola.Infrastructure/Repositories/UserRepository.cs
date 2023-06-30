@@ -41,12 +41,12 @@ namespace AutoSkola.Infrastructure.Repositories
             string to = user.Email;
             string from = "nordingsoftversko@gmail.com";
             MailMessage message = new MailMessage(from, to);
-            string mailBody = $"Hi {user.Ime}, <br>" + Environment.NewLine + $"You are accepted bytthe adminstrator. Now, you can use our site and rate many art paintings";
+            string mailBody = $"Hi {user.Ime}, <br>" + Environment.NewLine + $"Prihvaceni ste od strane voditelja.Sada mozete koristiti nasu stranicu.";
             message.Body = mailBody;
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            NetworkCredential basicCredential = new NetworkCredential("nordingsoftversko@gmail.com", "vbahpxfxlkowjabt");
+            NetworkCredential basicCredential = new NetworkCredential("nordingsoftversko@gmail.com", "enlqgxnvslrfhxsv");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential;
@@ -75,12 +75,12 @@ namespace AutoSkola.Infrastructure.Repositories
             string to = user.Email;
             string from = "nordingsoftversko@gmail.com";
             MailMessage message = new MailMessage(from, to);
-            string mailBody = $"Hi {user.Ime}, <br>" + Environment.NewLine + $"You are not accepted by the administrator";
+            string mailBody = $"Hi {user.Ime}, <br>" + Environment.NewLine + $"Niste prihvaceni od strane administratora";
             message.Body = mailBody;
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            NetworkCredential networkCredential = new NetworkCredential("nordingsoftversko@gmail.com", "vbahpxfxlkowjabt");
+            NetworkCredential networkCredential = new NetworkCredential("nordingsoftversko@gmail.com", "enlqgxnvslrfhxsv");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = networkCredential;
@@ -153,11 +153,12 @@ namespace AutoSkola.Infrastructure.Repositories
             {
                 await userManager.AddToRoleAsync(user, "Polaznik");
                 user.EmailConfirmed = false;
-               // await userManager.UpdateAsync(user);
+                await userManager.UpdateAsync(user);
 
 
 
             }
+
             else if(request.Role == 3)
             {
                 await userManager.AddToRoleAsync(user, "Instuktor");

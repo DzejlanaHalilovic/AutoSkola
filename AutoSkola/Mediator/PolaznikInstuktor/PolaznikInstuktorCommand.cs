@@ -27,8 +27,8 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
         public async  Task<Result<PolaznikInstuktorResponse>> Handle(PolaznikInstuktorCommand request, CancellationToken cancellationToken)
         {
             var instruktor = await userManager.FindByIdAsync(request.Request.InstruktorId.ToString());
-            var polaznik = await userManager.FindByIdAsync(request.Request.PolaznikId.ToString());
-            if (instruktor == null)
+              var polaznik = await userManager.FindByIdAsync(request.Request.PolaznikId.ToString());
+            if (instruktor == null || !instruktor.EmailConfirmed)
             {
                 return new Result<PolaznikInstuktorResponse>
                 {
@@ -46,7 +46,7 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
                 };
             }
 
-            if (polaznik == null)
+            if (polaznik == null )
             {
                 return new Result<PolaznikInstuktorResponse>
                 {
@@ -79,7 +79,7 @@ namespace AutoSkola.Mediator.PolaznikInstuktor
             {
                 return new Result<PolaznikInstuktorResponse>
                 {
-                    Errors = new List<string> { "Polaznik je već dodat instruktoru" },
+                    Errors = new List<string> { "Postovani odabrali ste vec svog instuktora i broj casova, pratite svoj raspored " },
                     IsSuccess = false
                 };
             }

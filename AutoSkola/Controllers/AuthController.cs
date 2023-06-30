@@ -65,12 +65,12 @@ namespace AutoSkola.Controllers
             string to = user.Email;
             string from = "nordingsoftversko@gmail.com";
             MailMessage message = new MailMessage(from, to);
-            string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://elmaaa-001-site1.ftempurl.com/change-password/{user.SecurityStamp}";
+            string mailbody = $"Hi {user.Ime}, \n" + Environment.NewLine + $"Click here to change your password: http://localhost:4200/forgot-password/{user.SecurityStamp}";
             message.Body = mailbody;
             message.BodyEncoding = Encoding.UTF8;
             message.IsBodyHtml = true;
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
-            NetworkCredential basicCredential = new NetworkCredential("nordingsoftversko@gmail.com", "vbahpxfxlkowjabt");
+            NetworkCredential basicCredential = new NetworkCredential("nordingsoftversko@gmail.com", "enlqgxnvslrfhxsv");
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential;

@@ -65,6 +65,7 @@ namespace AutoSkola.Controllers
                 .Where(u => !instruktoriSaViseOdDvaPolaznika.Contains(u.Id))
                 .Where(u => context.userkategorija
                     .Any(uk => uk.UserId == u.Id && uk.KategorijaId == polaznikovaKategorija))
+                .Where(u => u.EmailConfirmed)
                 .Distinct()
                 .ToList();
 
